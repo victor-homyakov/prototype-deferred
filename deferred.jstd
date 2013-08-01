@@ -1,0 +1,5 @@
+load:
+  - lib/prototype.js
+  - js/callbacks.js
+  - js/deferred.js
+  - test/deferred.js

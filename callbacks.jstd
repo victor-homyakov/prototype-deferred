@@ -1,0 +1,4 @@
+load:
+  - lib/prototype.js
+  - js/callbacks.js
+  - test/callbacks.js
