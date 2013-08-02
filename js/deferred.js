@@ -11,7 +11,8 @@ Prototype.Deferred = function (func) {
                 return state;
             },
             always: function () {
-                deferred.done(arguments).fail(arguments);
+                var args = $A(arguments);
+                deferred.done(args).fail(args);
                 return this;
             },
             then: function (fnDone, fnFail, fnProgress) {
@@ -49,7 +50,11 @@ Prototype.Deferred = function (func) {
         var list = tuple[2], stateString = tuple[3];
 
         // promise[ done | fail | progress ] = list.add
-        promise[tuple[1]] = list.add;
+        promise[tuple[1]] = function () {
+            //list.add($A(arguments));
+            list.add.apply(list, arguments);
+            return this;
+        };
 
         // Handle state
         if (stateString) {
@@ -61,11 +66,11 @@ Prototype.Deferred = function (func) {
         }
 
         // deferred[ resolve | reject | notify ]
+        deferred[tuple[0] + "With"] = list.fireWith;
         deferred[tuple[0]] = function () {
             deferred[tuple[0] + "With"](this === deferred ? promise : this, arguments);
             return this;
         };
-        deferred[tuple[0] + "With"] = list.fireWith;
     });
 
     // Make the deferred a promise

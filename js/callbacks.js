@@ -57,6 +57,9 @@ Prototype.Callbacks = Class.create({
         this.list = [];
         // Stack of fire calls for repeatable lists
         this.stack = !this.options.once && [];
+        //this.add = this.add.bind(this);
+        this.lock = this.lock.bind(this);
+        this.fireWith = this.fireWith.bind(this);
     },
 
     /**
